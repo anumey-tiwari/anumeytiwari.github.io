@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0a0a0b"/>
+  <text x="80" y="280" font-family="system-ui, sans-serif" font-size="56" font-weight="600" fill="#e8e8ea">Anumey Tiwari</text>
+  <text x="80" y="360" font-family="ui-monospace, monospace" font-size="28" fill="#8b8b93">Staff Backend Engineer · Distributed Systems</text>
+  <rect x="80" y="400" width="120" height="4" fill="#c9a227"/>
+</svg>
