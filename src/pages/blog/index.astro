@@ -1,0 +1,124 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site } from '../../data/site';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+---
+
+<BaseLayout
+  title={`Blog — ${site.name}`}
+  description="Essays on distributed systems, backend engineering, and building reliable software at scale."
+>
+  <section class="section archive">
+    <div class="container">
+      <p class="section-label reveal">Archive</p>
+      <h1 class="page-title reveal reveal-delay-1">All posts</h1>
+      <p class="intro reveal reveal-delay-1">Everything I have published.</p>
+      <ul class="post-list">
+        {posts.map((post, i) => (
+          <li class={`reveal reveal-delay-${Math.min(i + 1, 3)}`}>
+            <span class="date">{formatDate(post.data.pubDate)}</span>
+            <span class="sep"> : </span>
+            <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+            <p class="desc">{post.data.description}</p>
+          </li>
+        ))}
+      </ul>
+      <p class="back reveal">
+        <a href="/">← Back home</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .archive {
+    padding-top: 3rem;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro {
+    margin: 0 0 2rem;
+    font-size: 0.875rem;
+    color: var(--text-dim);
+  }
+
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .post-list > li {
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .post-list > li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .date {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--text-dim);
+  }
+
+  .sep {
+    color: var(--text-dim);
+  }
+
+  .post-list a {
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--border);
+  }
+
+  .post-list a:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
+
+  .desc {
+    margin: 0.4rem 0 0;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  .back {
+    margin-top: 2.5rem;
+    font-size: 0.875rem;
+  }
+
+  .back a {
+    color: var(--text-muted);
+  }
+
+  .back a:hover {
+    color: var(--accent);
+  }
+</style>

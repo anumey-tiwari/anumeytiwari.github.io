@@ -1,0 +1,78 @@
+---
+import { site } from '../data/site';
+
+const nav = [
+  { href: '#about', label: 'About' },
+  { href: '#blog', label: 'Blog' },
+  { href: '#experience', label: 'Experience' },
+  { href: '#projects', label: 'Projects' },
+];
+---
+
+<header class="header">
+  <div class="container header-inner">
+    <a href="/" class="logo">{site.name}</a>
+    <nav class="nav" aria-label="Main">
+      {nav.map((item) => (
+        <a href={item.href}>{item.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: var(--nav-height);
+    background: rgba(10, 10, 11, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .logo {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .logo:hover {
+    color: var(--accent);
+  }
+
+  .nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .nav a {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    transition: color 0.2s var(--ease-out);
+  }
+
+  .nav a:hover {
+    color: var(--text);
+  }
+
+  @media (max-width: 540px) {
+    .nav {
+      gap: 1rem;
+    }
+
+    .nav a {
+      font-size: 0.75rem;
+    }
+  }
+</style>

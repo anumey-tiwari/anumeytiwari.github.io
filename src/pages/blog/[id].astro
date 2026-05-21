@@ -1,0 +1,90 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site } from '../../data/site';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+---
+
+<BaseLayout
+  title={`${post.data.title} — ${site.name}`}
+  description={post.data.description}
+  type="article"
+  publishedTime={post.data.pubDate.toISOString()}
+>
+  <article class="section post">
+    <div class="container">
+      <p class="section-label reveal">Blog</p>
+      <h1 class="post-title reveal reveal-delay-1">{post.data.title}</h1>
+      <p class="post-meta reveal reveal-delay-1">
+        <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+      </p>
+      <div class="prose reveal reveal-delay-2">
+        <Content />
+      </div>
+      <p class="back reveal">
+        <a href="/blog/">← All posts</a>
+        <span class="dot">·</span>
+        <a href="/">Home</a>
+      </p>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post {
+    padding-top: 3rem;
+  }
+
+  .post-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    margin: 0 0 0.5rem;
+    line-height: 1.25;
+  }
+
+  .post-meta {
+    margin: 0 0 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--text-dim);
+  }
+
+  .back {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.875rem;
+  }
+
+  .back a {
+    color: var(--text-muted);
+  }
+
+  .back a:hover {
+    color: var(--accent);
+  }
+
+  .dot {
+    margin: 0 0.5rem;
+    color: var(--text-dim);
+  }
+</style>

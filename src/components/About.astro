@@ -1,0 +1,27 @@
+---
+import { about } from '../data/site';
+---
+
+<section class="section" id="about">
+  <div class="container">
+    <p class="section-label reveal">About</p>
+    <div class="about-content reveal reveal-delay-1">
+      {about.split('\n\n').map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-content p {
+    margin: 0 0 1.25rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.75;
+  }
+
+  .about-content p:last-child {
+    margin-bottom: 0;
+  }
+</style>
